@@ -95,6 +95,7 @@ generate_messages(
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
 generate_dynamic_reconfigure_options(
   cfg/Performances.cfg
+  cfg/Wholeshow.cfg
 )
 
 ###################################
