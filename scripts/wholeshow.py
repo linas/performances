@@ -126,7 +126,7 @@ class WholeShow(HierarchicalMachine):
 
     def speech_cb(self, msg):
         """ ROS Callbacks """
-        if not self.filter_stt(msg):
+        if self.config.get('filter_stt', True) and not self.filter_stt(msg):
             return
         speech = str(msg.utterance).lower()
         on = (self.state == 'interacting') or (self.state == 'performing' and self.config['chat_during_performance'])
