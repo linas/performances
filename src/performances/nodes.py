@@ -139,14 +139,16 @@ class speech(Node):
             self.data['speed'] = 1.0
         if 'volume' not in data:
             self.data['volume'] = 1.0
+        # Backward compatibility
+        if self.data['lang'] in ['en', 'zh']:
+            self.data['lang'] = {'en': 'en-US', 'zh': 'cmn-Hans-CN'}[self.data['lang']]
 
     def start(self, run_time):
         self.say(self.data['text'], self.data['lang'])
 
     def say(self, text, lang):
         # SSML tags for english TTS only.
-        if ('Han' not in lang) and \
-                        lang != 'CN': # for backward compatability
+        if 'Han' not in lang: # for backward compatability
             text = self._add_ssml(text)
 
         text = self.replace_variables_text(text)
