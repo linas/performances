@@ -13,7 +13,7 @@ import copy
 from natsort import natsorted, ns
 from std_msgs.msg import String, Int32, Float32
 from std_srvs.srv import Trigger, TriggerResponse
-from chatbot.msg import ChatMessage
+from hr_msgs.msg import ChatMessage
 from hr_msgs.msg import TTS
 from blender_api_msgs.msg import SetGesture, EmotionState, Target, SomaState
 from basic_head_api.msg import MakeFaceExpr, PlayAnimation
