@@ -14,6 +14,7 @@ from natsort import natsorted, ns
 from std_msgs.msg import String, Int32, Float32
 from std_srvs.srv import Trigger, TriggerResponse
 from chatbot.msg import ChatMessage
+from hr_msgs.msg import TTS
 from blender_api_msgs.msg import SetGesture, EmotionState, Target, SomaState
 from basic_head_api.msg import MakeFaceExpr, PlayAnimation
 from topic_tools.srv import MuxSelect
@@ -71,11 +72,7 @@ class Runner:
             'chatbot': rospy.Publisher('/' + self.robot_name + '/speech', ChatMessage, queue_size=1),
             'speech_events': rospy.Publisher('/' + self.robot_name + '/speech_events', String, queue_size=1),
             'soma_state': rospy.Publisher("/blender_api/set_soma_state", SomaState, queue_size=2),
-            'tts': {
-                'en': rospy.Publisher('/' + self.robot_name + '/tts_en', String, queue_size=1),
-                'zh': rospy.Publisher('/' + self.robot_name + '/tts_zh', String, queue_size=1),
-                'default': rospy.Publisher('/' + self.robot_name + '/tts', String, queue_size=1),
-            },
+            'tts': rospy.Publisher('/' + self.robot_name + '/tts', TTS, queue_size=1),
             'tts_control': rospy.Publisher('/' + self.robot_name + '/tts_control', String, queue_size=1)
         }
         self.load_properties()

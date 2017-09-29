@@ -17,7 +17,7 @@ from performances.msg import Event
 import subprocess
 import threading
 import dynamic_reconfigure.client
-from chatbot.msg import ChatMessage
+from hr_msgs.msg import ChatMessage
 from dynamic_reconfigure.server import Server
 from performances.cfg import WholeshowConfig
 from performances.nodes import pause

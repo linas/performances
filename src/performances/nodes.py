@@ -6,6 +6,7 @@ import pprint
 import rospy
 from std_msgs.msg import String, Int32, Float32
 from chatbot.msg import ChatMessage
+from hr_msgs.msg import TTS
 from blender_api_msgs.msg import SetGesture, EmotionState, Target, SomaState
 from basic_head_api.msg import MakeFaceExpr, PlayAnimation
 from topic_tools.srv import MuxSelect
@@ -143,13 +144,11 @@ class speech(Node):
         self.say(self.data['text'], self.data['lang'])
 
     def say(self, text, lang):
-        if lang not in ['en', 'zh']:
-            lang = 'default'
         # SSML tags for english TTS only.
-        if lang == 'en':
+        if 'Han' not in lang:
             text = self._add_ssml(text)
         text = self.replace_variables_text(text)
-        self.runner.topics['tts'][lang].publish(String(text))
+        self.runner.topics['tts'].publish(TTS(text, lang))
 
     # adds SSML tags for whole text returns updated text.
     def _add_ssml(self, txt):
@@ -393,7 +392,8 @@ class chat_pause(Node):
     def start(self, run_time):
         if 'message' in self.data and self.data['message']:
             self.runner.pause()
-            self.runner.topics['chatbot'].publish(ChatMessage(utterance=self.data['message'], confidence=100, source='performances'))
+            self.runner.topics['chatbot'].publish(ChatMessage(utterance=self.data['message'],
+                                                              lang='en-US', confidence=100, source='performances'))
 
             def speech_event_callback(event):
                 if event.data == 'stop':
@@ -534,7 +534,7 @@ class chat(Node):
     def respond(self, response):
         self.runner.topics['events'].publish(Event('chat_end', 0))
         self.talking = True
-        self.runner.topics['tts']['default'].publish(String(response))
+        self.runner.topics['tts'].publish(TTS(response, 'en-US'))
 
     def speech_event_callback(self, msg):
         event = msg.data
