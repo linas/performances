@@ -159,7 +159,7 @@ class speech(Node):
         # Ignore SSML if simplified syntax is used.
         if re.search(r"[\*\@]\w+", txt):
             return txt
-        return '<prosody rate="%.2f" pitch="%+d%%" volume="%+d%%">%s</prosody>' % \
+        return '<prosody rate="%.2f" pitch="%+d%%" volume="%+ddB">%s</prosody>' % \
                (self.data['speed'], 100 * (self.data['pitch'] - 1), 100 * (self.data['volume'] - 1), txt)
 
 
