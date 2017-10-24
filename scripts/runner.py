@@ -158,7 +158,7 @@ class Runner:
             robot_name = 'common'
         else:
             robot_name = rospy.get_param('/robot_name')
-        dir_path = os.path.join(self.robots_config_dir, robot_name, 'performances', id)
+        dir_path = os.path.join(self.robots_config_dir, 'heads', robot_name, 'performances', id)
         if os.path.isdir(dir_path):
             root, dirs, files = next(os.walk(dir_path))
 
@@ -188,7 +188,7 @@ class Runner:
 
     def load(self, id):
         robot_name = 'common' if id.startswith('shared') else rospy.get_param('/robot_name')
-        p = os.path.join(self.robots_config_dir, robot_name, 'performances', id)
+        p = os.path.join(self.robots_config_dir, 'heads', robot_name, 'performances', id)
 
         if os.path.isdir(p):
             root, dirs, files = next(os.walk(p))
@@ -210,7 +210,7 @@ class Runner:
     def get_timeline(self, id):
         timeline = None
         robot_name = 'common' if id.startswith('shared') else rospy.get_param('/robot_name')
-        p = os.path.join(self.robots_config_dir, robot_name, 'performances', id) + '.yaml'
+        p = os.path.join(self.robots_config_dir, 'heads', robot_name, 'performances', id) + '.yaml'
 
         if os.path.isfile(p):
             with open(p, 'r') as f:
@@ -545,7 +545,7 @@ class Runner:
 
     def load_properties(self):
         robot_name = rospy.get_param('/robot_name')
-        robot_path = os.path.join(self.robots_config_dir, robot_name, 'performances')
+        robot_path = os.path.join(self.robots_config_dir,'heads', robot_name, 'performances')
         common_path = os.path.join(self.robots_config_dir, 'common', 'performances')
         for path in [common_path, robot_path]:
             for root, dirnames, filenames in os.walk(path):
