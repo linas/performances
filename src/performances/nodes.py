@@ -148,7 +148,7 @@ class speech(Node):
 
     def say(self, text, lang):
         # SSML tags for english TTS only.
-        if lang == 'en-US': # for backward compatability
+        if lang != 'cmn-Hans-CN': # Chinese tts doesn't support ssml
             text = self._add_ssml(text)
 
         text = self.replace_variables_text(text)
