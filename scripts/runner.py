@@ -68,6 +68,7 @@ class Runner:
             'head_rotation': rospy.Publisher('/blender_api/set_head_rotation', Float32, queue_size=1),
             'emotion': rospy.Publisher('/blender_api/set_emotion_state', EmotionState, queue_size=3),
             'gesture': rospy.Publisher('/blender_api/set_gesture', SetGesture, queue_size=3),
+            'arm_animation': rospy.Publisher('/blender_api/set_arm_animation', SetGesture, queue_size=3),
             'expression': rospy.Publisher('/' + self.robot_name + '/make_face_expr', MakeFaceExpr, queue_size=3),
             'kfanimation': rospy.Publisher('/' + self.robot_name + '/play_animation', PlayAnimation, queue_size=3),
             'interaction': rospy.Publisher('/behavior_switch', String, queue_size=1),

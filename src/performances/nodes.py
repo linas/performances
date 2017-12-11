@@ -168,6 +168,10 @@ class gesture(Node):
         self.runner.topics['gesture'].publish(
             SetGesture(self.data['gesture'], 1, float(self.data['speed']), self._magnitude(self.data['magnitude'])))
 
+class arm_animation(Node):
+    def start(self, run_time):
+        self.runner.topics['arm_animation'].publish(
+            SetGesture(self.data['arm_animation'], 1, float(self.data['speed']), self._magnitude(self.data['magnitude'])))
 
 class emotion(Node):
     def start(self, run_time):
