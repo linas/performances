@@ -31,7 +31,7 @@ logger = logging.getLogger('hr.performances')
 class Runner:
     def __init__(self):
         self.robot_name = rospy.get_param('/robot_name')
-        self.robots_config_dir = rospy.get_param('/robots_config_dir')
+        self.performances_dir = os.path.join(os.environ.get('HR_WORKSPACE'),'performances_content')
         self.running = False
         self.paused = False
         self.autopause = False
@@ -210,10 +210,7 @@ class Runner:
             return None
 
     def get_path_by_robot_name(self, name):
-        if name == 'common':
-            return os.path.join(self.robots_config_dir, name, 'performances')
-        else:
-            return os.path.join(self.robots_config_dir, 'heads', name, 'performances')
+        return os.path.join(self.performances_dir, name)
 
     def get_timeline(self, id):
         timeline = None
@@ -553,8 +550,8 @@ class Runner:
 
     def load_properties(self):
         robot_name = rospy.get_param('/robot_name')
-        robot_path = os.path.join(self.robots_config_dir,'heads', robot_name, 'performances')
-        common_path = os.path.join(self.robots_config_dir, 'common', 'performances')
+        robot_path = os.path.join(self.performances_dir, robot_name)
+        common_path = os.path.join(self.performances_dir, 'common')
         for path in [common_path, robot_path]:
             for root, dirnames, filenames in os.walk(path):
                 if '.properties' in filenames:
