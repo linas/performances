@@ -557,11 +557,15 @@ class Runner:
                 if '.properties' in filenames:
                     filename = os.path.join(root, '.properties')
                     if os.path.isfile(filename):
-                        with open(filename) as f:
-                            properties = yaml.load(f.read())
-                            dir = os.path.relpath(root, path)
-                            rospy.set_param('/' + os.path.join(self.robot_name, 'webui/performances', dir).strip(
-                                "/.") + '/properties', properties)
+                        try:
+                            with open(filename) as f:
+                                properties = yaml.load(f.read())
+                                dir = os.path.relpath(root, path)
+                                rospy.set_param('/' + os.path.join(self.robot_name, 'webui/performances', dir).strip(
+                                    "/.") + '/properties', properties)
+                        except:
+                            rospy.logerr("Cant load properties file for {}".format(dir))
+
 
     def get_property(self, path, name):
         param_name = os.path.join('/', self.robot_name, 'webui/performances', path, 'properties', name)
