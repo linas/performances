@@ -125,6 +125,7 @@ class Runner:
             if self.running_performance:
                 logger.info('unloading')
                 self.running_performance = None
+                self.unload_attention_regions()
                 self.topics['running_performance'].publish(String(json.dumps(None)))
 
     def set_properties_callback(self, request):
@@ -281,11 +282,21 @@ class Runner:
         with self.lock:
             logger.info('load: {0}'.format(performance.get('id', 'NO ID')))
             self.validate_performance(performance)
+            self.load_attention_regions(performance.get('id','invalid'))
             self.running_performance = performance
             self.topics['running_performance'].publish(String(json.dumps(performance)))
 
     def run_callback(self, request):
         return srv.RunResponse(self.run(request.startTime))
+
+    def load_attention_regions(self, id):
+        regions = rospy.get_param(
+            '/' + os.path.join(self.robot_name, "webui/performances", id,
+                               "properties/regions"), [])
+        rospy.set_param('/{}/performance_regions'.format(self.robot_name), regions)
+
+    def unload_attention_regions(self):
+        rospy.set_param('/{}/performance_regions'.format(self.robot_name), [])
 
     def run(self, start_time, unload_finished=False):
         start_time = float(start_time or 0)
