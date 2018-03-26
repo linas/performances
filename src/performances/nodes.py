@@ -609,10 +609,10 @@ class attention(Node):
         if regions:
             y, matched = attention.get_random_axis_position(regions, 'x')
             z, matched = attention.get_random_axis_position(matched, 'y')
-
+            # invert Y to match image in bg
             return {
                 'x': 1,
-                'y': y,
+                'y': -y,
                 'z': z,
             }
         else:
