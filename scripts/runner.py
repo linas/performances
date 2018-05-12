@@ -507,9 +507,9 @@ class Runner:
             if not behavior:
                 self.topics['interaction'].publish('btree_on')
 
-            # if self.unload_finished:
-            #     self.unload_finished = False
-            #     self.unload()
+            if self.unload_finished:
+                self.unload_finished = False
+                self.unload()
 
     def get_run_time(self):
         """
