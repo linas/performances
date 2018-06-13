@@ -4,6 +4,8 @@
 import os
 import pprint
 import rospy
+import xml.etree.ElementTree as etree
+import StringIO
 from std_msgs.msg import String, Int32, Float32
 from chatbot.msg import ChatMessage
 from hr_msgs.msg import TTS
@@ -148,7 +150,7 @@ class speech(Node):
 
     def say(self, text, lang):
         # SSML tags for english TTS only.
-        if lang != 'cmn-Hans-CN': # Chinese tts doesn't support ssml
+        if lang in ['en-US']:
             text = self._add_ssml(text)
 
         text = self.replace_variables_text(text)
@@ -159,9 +161,26 @@ class speech(Node):
         # Ignore SSML if simplified syntax is used.
         if re.search(r"[\*\@]\w+", txt):
             return txt
-        return '<prosody rate="%.2f" pitch="%+d%%" volume="%+ddB">%s</prosody>' % \
-               (self.data['speed'], 100 * (self.data['pitch'] - 1), 100 * (self.data['volume'] - 1), txt)
 
+        el = etree.Element('prosody')
+        el.text = txt
+        if self.data['speed'] != 1:
+            el.set('rate', '{:.2f}'.format(self.data['speed']))
+            logger.info("Add rate prosody")
+        if self.data['pitch'] != 1:
+            el.set('pitch', '{:+.2f}%'.format((self.data['pitch']-1)*100))
+            logger.info("Add pitch prosody")
+        if self.data['volume'] != 1:
+            el.set('volume', '{:+.2f}dB'.format((self.data['volume']-1)*100))
+            logger.info("Add volume prosody")
+        tree = etree.ElementTree(el)
+        buf = StringIO.StringIO()
+        tree.write(buf)
+        if el.attrib:
+            txt = buf.getvalue()
+            logger.warn("Add prosody tag")
+            logger.warn("%s" % txt)
+        return txt
 
 class gesture(Node):
     def start(self, run_time):

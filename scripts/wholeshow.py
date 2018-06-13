@@ -126,6 +126,7 @@ class WholeShow(HierarchicalMachine):
 
     def speech_cb(self, msg):
         """ ROS Callbacks """
+        logger.info("Incoming speech %s" % msg)
         if self.config.get('filter_stt', True) and not self.filter_stt(msg):
             return
         speech = str(msg.utterance).lower()
