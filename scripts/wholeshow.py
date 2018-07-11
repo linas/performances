@@ -7,6 +7,8 @@ import random
 import subprocess
 import threading
 
+from transitions import *
+from transitions.extensions import HierarchicalMachine
 import rospkg
 import rospy
 from blender_api_msgs.srv import SetParam
@@ -17,8 +19,6 @@ from hr_msgs.msg import Target, SomaState
 from performances.cfg import WholeshowConfig
 from performances.nodes import pause
 from std_msgs.msg import String, Bool
-from transitions import *
-from transitions.extensions import HierarchicalMachine
 import dynamic_reconfigure.client
 import performances.srv as srv
 
