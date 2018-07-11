@@ -1,26 +1,27 @@
 #!/usr/bin/env python
 import logging
-
-from transitions import *
-from transitions.extensions import HierarchicalMachine
-import rospy
-import rospkg
 import os
 import re
-import random
-from std_msgs.msg import String, Bool
-from blender_api_msgs.msg import Target, SomaState
-from blender_api_msgs.srv import SetParam
 import time
-import performances.srv as srv
-from performances.msg import Event
+import random
 import subprocess
 import threading
-import dynamic_reconfigure.client
-from hr_msgs.msg import ChatMessage
+
+import rospkg
+import rospy
+from blender_api_msgs.srv import SetParam
 from dynamic_reconfigure.server import Server
+from hr_msgs.msg import ChatMessage
+from hr_msgs.msg import Event
+from hr_msgs.msg import Target, SomaState
 from performances.cfg import WholeshowConfig
 from performances.nodes import pause
+from std_msgs.msg import String, Bool
+from transitions import *
+from transitions.extensions import HierarchicalMachine
+import dynamic_reconfigure.client
+import performances.srv as srv
+
 logger = logging.getLogger('hr.performance.wholeshow')
 rospack = rospkg.RosPack()
 

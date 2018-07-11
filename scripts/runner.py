@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from threading import Thread, Lock, Condition
-import rospy
 import logging
 import json
 import time
@@ -10,20 +9,21 @@ import fnmatch
 import random
 import copy
 
-from natsort import natsorted, ns
-from std_msgs.msg import String, Int32, Float32
-from std_srvs.srv import Trigger, TriggerResponse
-from hr_msgs.msg import ChatMessage
-from hr_msgs.msg import TTS
-from blender_api_msgs.msg import SetGesture, EmotionState, Target, SomaState
-from basic_head_api.msg import MakeFaceExpr, PlayAnimation
-from topic_tools.srv import MuxSelect
-from performances.nodes import Node
-from performances.weak_method import WeakMethod
-from performances.msg import Event
+import rospy
 import performances.srv as srv
 from dynamic_reconfigure.server import Server
+from hr_msgs.msg import ChatMessage
+from hr_msgs.msg import Event
+from hr_msgs.msg import MakeFaceExpr, PlayAnimation
+from hr_msgs.msg import SetGesture, EmotionState, Target, SomaState
+from hr_msgs.msg import TTS
+from natsort import natsorted, ns
 from performances.cfg import PerformancesConfig
+from performances.nodes import Node
+from performances.weak_method import WeakMethod
+from std_msgs.msg import String, Int32, Float32
+from std_srvs.srv import Trigger, TriggerResponse
+from topic_tools.srv import MuxSelect
 
 logger = logging.getLogger('hr.performances')
 

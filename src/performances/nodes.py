@@ -3,25 +3,26 @@
 # Nodes factory
 import os
 import pprint
-import rospy
 import xml.etree.ElementTree as etree
 import StringIO
-from std_msgs.msg import String, Int32, Float32
-from chatbot.msg import ChatMessage
-from hr_msgs.msg import TTS
-from blender_api_msgs.msg import SetGesture, EmotionState, Target, SomaState
-from basic_head_api.msg import MakeFaceExpr, PlayAnimation
-from topic_tools.srv import MuxSelect
 import time
 import logging
 import random
-from threading import Timer
-from performances.msg import Event
-import requests
 import urllib
-import dynamic_reconfigure.client
 import re
+
+from hr_msgs.msg import ChatMessage
+from hr_msgs.msg import Event
+from hr_msgs.msg import MakeFaceExpr, PlayAnimation
+from hr_msgs.msg import SetGesture, EmotionState, Target, SomaState
+from hr_msgs.msg import TTS
 from performances.srv import RunByNameRequest
+from std_msgs.msg import String, Int32, Float32
+from threading import Timer
+from topic_tools.srv import MuxSelect
+import dynamic_reconfigure.client
+import requests
+import rospy
 
 logger = logging.getLogger('hr.performances.nodes')
 
