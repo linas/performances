@@ -306,13 +306,21 @@ class Runner:
         with self.lock:
             success = self.running_performance and len(self.running_performance) > 0
             if success:
-                logger.info('Running performance #' + self.running_performance.get('id', '') + ' at: {0}'.format(start_time))
                 self.unload_finished = unload_finished
                 self.running = True
                 self.start_time = start_time
                 self.start_timestamp = time.time()
+                log_data = {
+                    'performance_report': True,
+                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_time': start_time,
+                    'performance_action': 'run'
+                }
+                logger.warn('Running performance #{} at: {}'.format(log_data['performance_id'], start_time), extra={'data': log_data})
                 # notify worker thread
                 self.run_condition.notify()
+
+
             self.run_condition.release()
             return success
 
@@ -332,21 +340,32 @@ class Runner:
                 self.start_timestamp = time.time() - run_time
                 self.start_time = 0
                 self.topics['events'].publish(Event('resume', run_time))
+                log_data = {
+                    'performance_report': True,
+                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_time': run_time,
+                    'performance_action': 'resume'
+                }
+                logger.warn('Resume performance #{} at: {}'.format(log_data['performance_id'], run_time), extra={'data': log_data})
                 success = True
 
         return success
 
     def stop(self):
         stop_time = 0
-
         with self.lock:
             if self.running:
                 stop_time = self.get_run_time()
                 self.running = False
                 self.paused = False
                 self.topics['tts_control'].publish('shutup')
-
-        logger.info('Stopping at: {0}'.format(stop_time))
+                log_data = {
+                    'performance_report': True,
+                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_time': stop_time,
+                    'performance_action': 'stop'
+                }
+                logger.warn('Stopping performance #{} at: {}'.format(log_data['performance_id'], stop_time), extra={'data': log_data})
         return stop_time
 
     def stop_callback(self, request=None):
@@ -365,7 +384,15 @@ class Runner:
             if self.running and not self.paused:
                 self.pause_time = time.time()
                 self.paused = True
-                self.topics['events'].publish(Event('paused', self.get_run_time()))
+                paused_time = self.get_run_time()
+                self.topics['events'].publish(Event('paused', paused_time))
+                log_data = {
+                    'performance_report': True,
+                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_time': paused_time,
+                    'performance_action': 'paused'
+                }
+                logger.warn('Pause performance #{} at: {}'.format(log_data['performance_id'], paused_time), extra={'data': log_data})
                 return True
             else:
                 return False
@@ -494,7 +521,14 @@ class Runner:
                         # true if all performance nodes are already finished
                         finished = not running
 
-                logger.info('Performance finished at :{0}'.format(run_time))
+                log_data = {
+                    'performance_report': True,
+                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_time': run_time,
+                    'performance_action': 'finished'
+                }
+                if i == len(timelines) - 1:
+                    logger.warn('Finished performance #{} at: {}'.format(log_data['performance_id'], run_time), extra={'data': log_data})
 
                 offset += self.get_timeline_duration(timeline)
 
