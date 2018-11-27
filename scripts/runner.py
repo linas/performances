@@ -31,7 +31,7 @@ logger = logging.getLogger('hr.performances')
 class Runner:
     def __init__(self):
         self.robot_name = rospy.get_param('/robot_name')
-        self.performances_dir = os.path.join(os.environ.get('HR_WORKSPACE'),'performances_content')
+        self.performances_dir = os.path.join(os.environ.get('PERFORMANCES_DIR'))
         self.running = False
         self.paused = False
         self.autopause = False
