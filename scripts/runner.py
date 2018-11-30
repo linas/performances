@@ -361,7 +361,7 @@ class Runner:
                 self.topics['tts_control'].publish('shutup')
                 log_data = {
                     'performance_report': True,
-                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_id': self.running_performance.get('id', '') if self.running_performance else '',
                     'performance_time': stop_time,
                     'performance_action': 'stop'
                 }
@@ -523,7 +523,7 @@ class Runner:
 
                 log_data = {
                     'performance_report': True,
-                    'performance_id': self.running_performance.get('id', ''),
+                    'performance_id': self.running_performance.get('id', '') if self.running_performance else '',
                     'performance_time': run_time,
                     'performance_action': 'finished'
                 }
