@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Copyright (c) 2013-2018 Hanson Robotics, Ltd, all rights reserved 
 from threading import Thread, Lock, Condition
 import logging
 import json
