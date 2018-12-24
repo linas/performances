@@ -1,4 +1,3 @@
-# Copyright (c) 2013-2018 Hanson Robotics, Ltd, all rights reserved. 
 # Performance API
 
 ## Services:
@@ -7,7 +6,7 @@
 `std_srvs.srv.Trigger`
 Reads and loads performance configurations from .properties files.
 ##### Response
-* `boolean success` 
+* `boolean success`
 
 #### `/performances/set_properties`
 `performances.srv.SetProperties`
@@ -115,3 +114,5 @@ Get information about the current state of runner.
 `float32 current_time` - current run time
 `bool running` - run status
 `bool paused` - pause status
+
+## Copyright (c) 2013-2018 Hanson Robotics, Ltd, all rights reserved.
