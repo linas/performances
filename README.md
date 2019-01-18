@@ -115,4 +115,4 @@ Get information about the current state of runner.
 `bool running` - run status
 `bool paused` - pause status
 
-## Copyright (c) 2013-2018 Hanson Robotics, Ltd, all rights reserved.
+#### Copyright (c) 2016-2018 Hanson Robotics, Ltd. All rights reserved.
