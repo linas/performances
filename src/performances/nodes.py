@@ -151,8 +151,8 @@ class speech(Node):
         self.say(self.data['text'], self.data['lang'])
 
     def say(self, text, lang):
-        # SSML tags for english TTS only.
-        if lang in ['en-US']:
+        # SSML tags for non-Cantonese
+        if 'HK' not in lang:
             text = self._add_ssml(text)
 
         text = self.replace_variables_text(text)
